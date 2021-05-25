@@ -1,0 +1,20 @@
+Python --version ->Pythonのバージョンを確認
+
+→Pythonが古い場合
+    https://www.python.org/に行き新しいバージョンのPythonをダウンロード(3.9.0)
+
+→pipが反応しない場合は py -m pip
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python get -pip.py->pipが入る
+
+pip install -U pip → pipのアップデート //最優先
+
+pip list (-o) → 今あるパッケージを表示する
+俺が使っているパッケージ
+pip install -U BeautifulSoup4
+pip install -U requests
+pip install -U panda
+pip install -U numpy
+pip install -U time
+pip install -U urllib
+など,エラーが出てからインストールもあり(というかだいたいそれ)
