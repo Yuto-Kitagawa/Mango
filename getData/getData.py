@@ -25,6 +25,8 @@ course_dis_array = []
 course_detail_array = []
 weather_array = []
 
+#取り出す年を配列に記入
+#~2017,2018,2019~でクラス名が分けられている
 year_list = [2019,2020,2021]
 
 whole_race_url_array = []
