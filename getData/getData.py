@@ -47,6 +47,7 @@ import numpy as np
 # 宣言/初期化
 date_array = []
 umaban_array = []
+race_name_array = []
 name_array = []
 age_array = []
 add_weight_array = []
@@ -57,217 +58,126 @@ trainer_array = []
 margin_array = []
 corner_array = []
 grade_array = []
+course_dis_array = []
 course_detail_array = []
 weather_array = []
-year_list = [2020]
+year_list = [2019,2020,2021]
 # 全体のレースのリストが載っている年ごとのURL
 whole_race_url_array = []
 race_url_array = []
+counter = 340
+
+# yearがfor文の中に入っていないので判定で使えるようにcounterを用意
+year_counter = 2019
+
+# for文でURL作成
 for year in year_list:
     whole_race_url_array.append(
         "https://www.jra.go.jp/datafile/seiseki/replay/" + str(year) + "/jyusyo.html")
+        
 
-# レースのURL文回す
+# 年の分、レースのURL文回す
 for race_number in whole_race_url_array:
     race_html = requests.get(race_number)
     soup = BeautifulSoup(race_html.content, "lxml")
-    
 
-    # 年ごとの１レースのurl
-    for race_url in soup.find_all("td", class_="result"):
-        if(race_url is not None and len(race_url) > 0):
-            race_url_array.append("https://www.jra.go.jp" +
-                                    race_url.contents[0].get("href"))
-            if year >= 2019:
+    for race_url in soup.find_all("td", class_="result"):  # 年ごとの１レースのurl
+        if(race_url is not None and len(race_url) > 0):     # class="result"があるかどうかを判定
 
-                for race_detail in race_url_array:
-                    detail_html = requests.get(race_detail)
-                    soup = BeautifulSoup(detail_html.content, "lxml")
+            # class="result"の1つ目の子要素(a href="")のhrefのURLをrace_urlに格納
+            race_url = "https://www.jra.go.jp" + race_url.contents[0].get("href")
+            detail_html = requests.get(race_url)
+            soup = BeautifulSoup(detail_html.content, "lxml")
 
-                    # print("\n/**********日付************/")
-                    for date in soup.find_all("div", class_="date"):
-                        date_array.append(date.text)
+            #レースのリスト作成時必要データ
+            
+            date_array.append(soup.find("div", class_="date").get_text())
+            race_name_array.append(soup.find("span", class_="race_name").contents[0])
+            weather_array.append(soup.find("li", class_="weather").get_text())
+            course_dis_array.append(soup.find("div", class_="course").contents[1])
+            course_detail_array.append(soup.find("div", class_='course').contents[3].text)
+            grade_array.append(soup.find("span", class_="grade_icon").contents[0].get("alt"))
+            counter -= 1
+            print(counter)
+            
+            #レースの詳細作成時必要データ
 
-                    # print("\n/**********馬番************/")
-                    for umaban in soup.find_all("td", class_='num'):
-                        umaban_array.append(umaban.text)
-                    # print(umaban_array)
+            for umaban in soup.find_all("td", class_='num'):
+                umaban_array.append(umaban.text)
+            
+            # print("\n/***********馬名***********/")
+            for name in soup.find_all("td", class_='horse'):
+                name_array.append(name.text)
 
-                    # print("\n/***********馬名***********/")
-                    for name in soup.find_all("td", class_='horse'):
-                        name_array.append(name.text)
-                    # print(name_array)
+            # print("\n/************年齢**************/")
+            for age in soup.find_all("td", class_='age'):
+                age_array.append(age.text)
 
-                    # print("\n/************年齢**************/")
-                    for age in soup.find_all("td", class_='age'):
-                        age_array.append(age.text)
-                    # print(age_array)
+            # print("\n/*************負担重量***********/")
+            for add_weight in soup.find_all("td", class_='weight'):
+                add_weight_array.append(add_weight.text)
 
-                    # print("\n/*************負担重量***********/")
-                    for add_weight in soup.find_all("td", class_='weight'):
-                        add_weight_array.append(add_weight.text)
-                    # print(add_weight_array)
+            # print("\n/***************騎手名**************/")
+            for jockey in soup.find_all("td", class_='jockey'):
+                jockey_array.append(jockey.text)
 
-                    # print("\n/***************騎手名**************/")
-                    for jockey in soup.find_all("td", class_='jockey'):
-                        jockey_array.append(jockey.text)
-                    # print(jockey_array)
+            # print("\n/****************馬体重****************/")
+            for weight in soup.find_all("td", class_='h_weight'):
+                weight_array.append(weight.contents[0])
 
-                    # print("\n/****************馬体重****************/")
-                    for weight in soup.find_all("td", class_='h_weight'):
-                        weight_array.append(weight.contents[0])
-                    # print(weight_array)
+            # print("\n/****************タイム**************/")
+            for time in soup.find_all("td", class_='time'):
+                time_array.append(time.text)
 
-                    # print("\n/****************タイム**************/")
-                    for time in soup.find_all("td", class_='time'):
-                        time_array.append(time.text)
-                    # print(time_array)
+            # print("\n/****************着差****************/")
+            for margin in soup.find_all("td", class_='margin'):
+                margin_array.append(margin.text)
 
-                    # print("\n/****************着差****************/")
-                    for margin in soup.find_all("td", class_='margin'):
-                        margin_array.append(margin.text)
-                    # print(margin_array)
+            # print("\n/****************調教師****************/")
+            for trainer in soup.find_all("td", class_='trainer'):
+                # corner_newをcorner_arrayの最後に格納
+                trainer_array.append(trainer.text)
 
-                    # print("\n/****************調教師****************/")
-                    for corner in soup.find_all("td", class_='trainer'):
-                        # corner_newをcorner_arrayの最後に格納
-                        trainer_array.append(corner.text)
-                    # print(trainer_array)
+            # print("\n/****************コーナー通過順位****************/")
+            for corner in soup.find_all("td", class_='corner'):
+                corner_array.append(corner.text)
 
-                    # print("\n/****************コーナー通過順位****************/")
-                    for corner in soup.find_all("td", class_='corner'):
-                        corner_array.append(corner.text)
-                    # print(corner_array)
+            # umaban_array.append(soup.find_all("td", class_="num"))
+            # name_array.append(soup.find_all("td", class_="horse"))
+            # age_array.append(soup.find("td", class_="age").text)
+            # add_weight_array.append(soup.find("td", class_="weight").text)
+            # jockey_array.append(soup.find("td", class_="jockey").text)
+            # weight_array.append(soup.find("td", class_="h_weight").text)
+            # time_array.append(soup.find("td", class_="time").text)
+            # margin_array.append(soup.find("td", class_="margin").text)
+            # trainer_array.append(soup.find("td", class_="trainer").text)
+            # corner_array.append(soup.find("td", class_="corner").text)
 
-                    # print("\n/****************天気****************/")
-                    for weather in soup.find_all("li", class_='weather'):
-                        # 子要素の1番目を格納
-                        weather_span = weather.contents[0]
-                        weather_array.append(weather_span.contents[1].text)
-                    # print(weather_array)
+            
 
-                    # print("\n/****************レースの距離****************/")
-                    for course in soup.find_all("div", class_='course'):
-                        course_dis = course.contents[2]  # 距離(m)
-                        course_detail_array.append(
-                            course.contents[3])  # コースの詳細
-                        # print(course_dis)
-                    # print(course_detail_array)
+print(len(date_array))
+print(len(grade_array))
+print(len(course_dis_array))
+print(len(course_detail_array))
+print(len(weather_array))
 
-                    # print("\n/****************レースの階級****************/")
-                    for grade in soup.find_all("span", class_="grade_icon"):
-                        grade_array.append(grade.contents[0].get(
-                            "alt"))  # 子要素の初めのaltを取得(Grade→G1など)
-                    # print(grade_array)
+print(len(umaban_array))
+print(len(name_array))
+print(len(age_array))
+print(len(add_weight_array))
+print(len(jockey_array))
+print(len(time_array))
+print(len(weight_array))
+print(len(trainer_array))
+print(len(margin_array))
+print(len(corner_array))
 
-                # クラス名が変わるため年ごとに変更しないといけない
-                # if year == 2018:
-                #     for race_detail in race_url_array:
-                #         detail_html = requests.get(race_detail)
-                #         soup = BeautifulSoup(detail_html.content, "lxml")
+#レースのリスト作成は完成済み
+# race_list = pd.DataFrame({'日付': date_array, 'レース名': race_name_array, '階級': grade_array,
+#                          'コースの詳細': course_detail_array, 'コースの距離': course_dis_array, '天気': weather_array})
+# race_list.to_excel('./レースデータ.xlsx', header=False, index=False)
 
-                #         #宣言/初期化
-                #         umaban_array = []
-                #         name_array = []
-                #         age_array = []
-                #         add_weight_array = []
-                #         jockey_array = []
-                #         weight_array = []
-                #         time_array = []
-                #         trainer_array = []
-                #         margin_array = []
-                #         corner_array = []
-                #         wheather = ""
 
-                #         # print("\n/**********馬番************/")
-                #         for umaban in soup.find_all("td", class_='umabanCol'):
-                #             umaban_array.append(umaban.text)
-                #         # print(umaban_array)
-
-                #         # print("\n/***********馬名***********/")
-                #         for name in soup.find_all("td", class_='umameiCol'):
-                #             name_array.append(name.text)
-                #         # print(name_array)
-
-                #         # print("\n/************年齢**************/")
-                #         for age in soup.find_all("td", class_='seireiCol'):
-                #             age_array.append(age.text)
-                #         # print(age_array)
-
-                #         # print("\n/*************負担重量***********/")
-                #         for add_weight in soup.find_all("td", class_='hutanCol'):
-                #             add_weight_array.append(add_weight.text)
-                #         # print(add_weight_array)
-
-                #         # print("\n/***************騎手名**************/")
-                #         for jockey in soup.find_all("td", class_='jocCol'):
-                #             jockey_array.append(jockey.text)
-                #         # print(jockey_array)
-
-                #         # print("\n/****************タイム**************/")
-                #         for time in soup.find_all("td", class_='timeCol'):
-                #             time_array.append(time.text)
-                #         # print(time_array)
-
-                #         # print("\n/****************着差****************/")
-                #         for margin in soup.find_all("td", class_='chakusaCol'):
-                #             margin_array.append(margin.text)
-                #         # print(margin_array)
-
-                #         # print("\n/****************体重****************/")
-                #         for weight in soup.find_all("td", class_='bataiCol'):
-                #             # corner_newをcorner_arrayの最後に格納
-                #             weight_array.append(weight.text)
-                #         # print(weight_array)
-
-                #         # print("\n/****************調教師****************/")
-                #         for corner in soup.find_all("td", class_='choukyoCol'):
-                #             # corner_newをcorner_arrayの最後に格納
-                #             trainer_array.append(corner.text)
-                #         # print(trainer_array)
-
-                #         # print("\n/****************コーナー通過順位****************/")
-                #         for corner in soup.find_all("td", class_='corner'):
-                #             corner_array.append(corner.text)
-                #         # print(corner_array)
-
-                #         # print("\n/****************天気****************/")
-                #         for weather in soup.find_all("li", class_='raceTenkou'):
-                #             weather_content = weather.text
-                #         # print(weather_content)
-
-                #         # print("\n/****************レースの距離****************/")
-                #         for course in soup.find_all("div", class_='raceKyoriTrack'):
-                #             cource_detail = cource.text
-                #         # print(course_detail)
-
-                #         # print("\n/****************レースの階級****************/")
-                #         for grade in soup.find_all("span", class_="grdTtl"):
-                #             grade_content = grade.contents[0].get(
-                #                 "alt")  # 子要素の初めのaltを取得(Grade→G1など)
-                    # print(grade_content)
-                # if year <= 2017:
-                #     for race_detail in race_url_array:
-                #         detail_html = requests.get(race_detail)
-                #         soup = BeautifulSoup(detail_html.content, "lxml")
-
-                #         #宣言/初期化
-                #         umaban_array = []
-                #         name_array = []
-                #         age_array = []
-                #         add_weight_array = []
-                #         jockey_array = []
-                #         weight_array = []
-                #         time_array = []
-                #         trainer_array = []
-                #         margin_array = []
-                #         corner_array = []
-                #         wheather = ""
-
-                #         print("\n/***************馬番****************/")
-                #         for umaban in soup.find_all("tr"):
-                #             umaban_array.append(umaban.contents[1])
-
-# df = pd.DataFrame(
-#     {'馬番': umaban_array, '馬名': name_array, '斤量': add_weight_array})
-# df.to_excel('./競馬データ.xlsx', header=False, index=False)
+race_detail = pd.DataFrame(
+    {'馬番': umaban_array, '馬名': name_array, '斤量': add_weight_array, '年齢': age_array, '騎手': jockey_array, 'タイム': time_array, '体重': weight_array, '調教師': trainer_array, '着差': margin_array, 'コーナー通過': corner_array})
+race_detail.to_excel('./レース詳細.xlsx', header=False, index=False)
