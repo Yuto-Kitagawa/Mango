@@ -24,6 +24,7 @@ grade_array = []
 course_dis_array = []
 course_detail_array = []
 weather_array = []
+tyakujun_array = []
 
 #取り出す年を配列に記入
 #~2017,2018,2019~でクラス名が分けられている
@@ -73,6 +74,10 @@ for race_number in whole_race_url_array:
             grade_array.append(soup.find("span", class_="grade_icon").contents[0].get("alt"))
             
             #レースの詳細作成時必要データ
+            #着順
+            for tyaku in soup.find_all("td", class_='place'):
+                tyakujun_array.append(tyaku.text)
+
             #馬番
             for umaban in soup.find_all("td", class_='num'):
                 umaban_array.append(umaban.text)
@@ -147,7 +152,7 @@ print(len(corner_array))
 #                          'コースの詳細': course_detail_array, 'コースの距離': course_dis_array, '天気': weather_array})
 # race_list.to_excel('./レースデータ.xlsx', header=False, index=False)
 
-#レースの詳細をエクセルファイルにエクスポート
-# race_detail = pd.DataFrame(
-#     {'馬番': umaban_array, '馬名': name_array, '斤量': add_weight_array, '年齢': age_array, '騎手': jockey_array, 'タイム': time_array, '体重': weight_array, '調教師': trainer_array, '着差': margin_array, 'コーナー通過': corner_array})
-# race_detail.to_excel('./レース詳細.xlsx', header=False, index=False)
+# レースの詳細をエクセルファイルにエクスポート
+race_detail = pd.DataFrame(
+    {'着順':tyakujun_array,'馬番': umaban_array, '馬名': name_array, '斤量': add_weight_array, '年齢': age_array, '騎手': jockey_array, 'タイム': time_array, '体重': weight_array, '調教師': trainer_array, '着差': margin_array, 'コーナー通過': corner_array})
+race_detail.to_excel('./レース詳細.xlsx', header=False, index=False)
