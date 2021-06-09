@@ -7,64 +7,76 @@ import datetime
 import pandas as pd
 import numpy as np
 
-url_first = []
-url_third = []
-umamei = []
-td = []
-# 結果で必要な要素
-parents = []
-get_href = []
+# 使う順
+year_list = [2019, 2020]
+year_url = []
+month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+month_url = []
+race_url = []
+race_result = []
+horse_list = []
+father = []
+mother = []
+child = []
 
-year_list = [2020]  # 調べる年を配列に記入
-
-counter = 138  # 処理が長いのでカウンターで残り時間を表示
-
-# 年ごとのURLを作成
 for year in year_list:
-    url_first.append(
-        "https://www.keibalab.jp/db/race/grade.html?year="+str(year))
+    year_url.append("https://keiba.yahoo.co.jp/schedule/list/"+str(year))
+# 年分のURLが作成される
+# print(year_url)
 
-# 年ごとの重賞レースのリストWebページを表示
-for url_second in url_first:
-    # headersがないと404で拒否されるので記載
-    # headersは下のサイトで確認可
-    # https: // www.ugtop.com/spill.shtml
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
-    }
-    soup = BeautifulSoup(requests.get(
-        url_second, headers=headers).content, "lxml")
+# 1年ごとのURL
+for url in year_url:
+    # 月ごとのURL
+    for month in month_list:
+        # 月ごとのURLが作成される
+        month_url.append(url+"/?month="+str(month))
+        # print(url+"/?month="+str(month))
 
-    for race_url in soup.find_all("td", class_="bold"):
-        get_href = race_url.contents[2].get("href")
-        # レース結果の詳細のURL作成→url_thirdに格納
-        url_third_str = "https://www.keibalab.jp"+str(get_href)
-        url_third.append(url_third_str)
-        soup = BeautifulSoup(requests.get(
-            url_third_str, headers=headers).content, "lxml")
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+}
+counter = 0
+for url in month_url:
+    response = requests.get(url=url, headers=headers)
+    soup_race_result = BeautifulSoup(response.content, 'lxml')
+    for href in soup_race_result.find_all("td", class_="wsLB"):
+        # すべてのレースのURLを作成
+        race_result.append(" https://keiba.yahoo.co.jp" +
+                           str(href.find("a").get("href")))
+        counter += 1
+        print(counter)
+    print(len(race_result))
 
-        # 馬1頭の詳細のURLを取得
-        for url in soup.find_all("table", class_="DbTable stripe resulttable"):
-            for tbody in url.find_all("tbody"):
-                for tr in tbody.find_all("tr"):
-                    href = tr.contents[7].contents[0].get("href")
-                    url_horse = "https://www.keibalab.jp" + str(href)
-                    # 仔馬の名前を格納
-                    # 同じ行数でないといけないため2つ仔馬の名前を追加
-                    umamei.append(tr.contents[7].contents[0].text)
-                    umamei.append(tr.contents[7].contents[0].text)
-                    # URLを読み込み
-                    soupsan = BeautifulSoup(requests.get(
-                        url_horse, headers=headers).content, "lxml")
-                    # 親馬の名前を取得
-                    for parent in soupsan.find_all("span", class_='bold std15'):
-                        parents.append(parent.text)
-            counter -= 1
-            print("残り"+str(counter))
-            len(umamei)
-            len(parents)
-    # print(url_third)
+for url in race_result:
+    response = requests.get(url=url, headers=headers)
+    soup = BeautifulSoup(response.content, 'lxml')
+    for href in soup.find_all("td", class_="fntN"):
+        # すべての馬のURLを格納
+        horse_list.append("https://keiba.yahoo.co.jp" +
+                          str(href.find("a").get("href")))
+        counter += 1
+        print(counter)
+counter = 0
+for getParents in horse_list:
+    response = requests.get(url=getParents, headers=headers)
+    soup = BeautifulSoup(response.content, 'lxml')
+    #仔馬１親馬２の割合なので仔馬を二回格納する
+    child_name = soup.find("h1", class_="fntB").get_text()    
+    child.append(child_name)
+    child.append(child_name)
+    #親馬はcssセレクタでしか選択できなかったためselect()を使った
+    mother = []
+    father = []
+    for father_list in soup.select("#dirUmaBlood > tr "):
+        father.append(father_list.select_one("td:nth-of-type(1)"))
+    print(father[0].text)
+    for mother_list in soup.select("#dirUmaBlood > tr"):
+        mother.append(mother_list.select_one("td:nth-of-type(1)"))
 
-horse_parents = pd.DataFrame(
-    {"馬名": umamei, "馬親": parents})
-race_detail.to_excel('./馬親.xlsx', header=False, index=False)
+print(len(child))
+print(len(mother))
+print(len(father))
+
+parents_detail = pd.DataFrame(
+    {"仔馬": child_name, "父馬": father, "母馬": mother})
+parents_detail.to_excel('./血統.xlsx', header=False, index=False)

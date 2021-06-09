@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import os
 import re
+import urllib3
 import requests
 import time
 import datetime
