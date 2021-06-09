@@ -69,7 +69,6 @@ for getParents in horse_list:
     father = []
     for father_list in soup.select("#dirUmaBlood > tr "):
         father.append(father_list.select_one("td:nth-of-type(1)"))
-    print(father[0].text)
     for mother_list in soup.select("#dirUmaBlood > tr"):
         mother.append(mother_list.select_one("td:nth-of-type(1)"))
 
@@ -78,5 +77,5 @@ print(len(mother))
 print(len(father))
 
 parents_detail = pd.DataFrame(
-    {"仔馬": child_name, "父馬": father, "母馬": mother})
+    {"仔馬": child, "父馬": father, "母馬": mother})
 parents_detail.to_excel('./血統.xlsx', header=False, index=False)
