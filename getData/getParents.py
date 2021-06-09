@@ -37,6 +37,7 @@ headers = {
 }
 counter = 0
 for url in month_url:
+    time.sleep(5)
     response = requests.get(url=url, headers=headers)
     soup_race_result = BeautifulSoup(response.content, 'lxml')
     for href in soup_race_result.find_all("td", class_="wsLB"):
@@ -48,6 +49,7 @@ for url in month_url:
     print(len(race_result))
 
 for url in race_result:
+    time.sleep(5)
     response = requests.get(url=url, headers=headers)
     soup = BeautifulSoup(response.content, 'lxml')
     for href in soup.find_all("td", class_="fntN"):
@@ -56,12 +58,13 @@ for url in race_result:
                           str(href.find("a").get("href")))
         counter += 1
         print(counter)
-counter = 0
+
 for getParents in horse_list:
+    time.sleep(5)
     response = requests.get(url=getParents, headers=headers)
     soup = BeautifulSoup(response.content, 'lxml')
     #仔馬１親馬２の割合なので仔馬を二回格納する
-    child_name = soup.find("h1", class_="fntB").get_text()    
+    child_name = soup.find("h1", class_="fntB").get_text()
     child.append(child_name)
     child.append(child_name)
     #親馬はcssセレクタでしか選択できなかったためselect()を使った
