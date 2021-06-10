@@ -4,6 +4,7 @@ import re
 import requests
 import time
 import datetime
+import random
 import pandas as pd
 import numpy as np
 
@@ -17,6 +18,8 @@ race_result = []
 horse_list = []
 father = []
 mother = []
+parents_whole = []
+parents_list = []
 child = []
 
 for year in year_list:
@@ -31,49 +34,41 @@ for url in year_url:
         # 月ごとのURLが作成される
         month_url.append(url+"/?month="+str(month))
         # print(url+"/?month="+str(month))
-
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
 }
-counter = 0
+counter = 8870
 for url in month_url:
-    time.sleep(5)
     response = requests.get(url=url, headers=headers)
     soup_race_result = BeautifulSoup(response.content, 'lxml')
     for href in soup_race_result.find_all("td", class_="wsLB"):
         # すべてのレースのURLを作成
-        race_result.append(" https://keiba.yahoo.co.jp" +
-                           str(href.find("a").get("href")))
-        counter += 1
-        print(counter)
-    print(len(race_result))
-
-for url in race_result:
-    time.sleep(5)
-    response = requests.get(url=url, headers=headers)
-    soup = BeautifulSoup(response.content, 'lxml')
-    for href in soup.find_all("td", class_="fntN"):
-        # すべての馬のURLを格納
-        horse_list.append("https://keiba.yahoo.co.jp" +
-                          str(href.find("a").get("href")))
-        counter += 1
-        print(counter)
-
-for getParents in horse_list:
-    time.sleep(5)
-    response = requests.get(url=getParents, headers=headers)
-    soup = BeautifulSoup(response.content, 'lxml')
-    #仔馬１親馬２の割合なので仔馬を二回格納する
-    child_name = soup.find("h1", class_="fntB").get_text()
-    child.append(child_name)
-    child.append(child_name)
-    #親馬はcssセレクタでしか選択できなかったためselect()を使った
-    mother = []
-    father = []
-    for father_list in soup.select("#dirUmaBlood > tr "):
-        father.append(father_list.select_one("td:nth-of-type(1)"))
-    for mother_list in soup.select("#dirUmaBlood > tr"):
-        mother.append(mother_list.select_one("td:nth-of-type(1)"))
+        # race_result.append(" https://keiba.yahoo.co.jp" +
+        #                    str(href.find("a").get("href")))
+        race_url_str = " https://keiba.yahoo.co.jp" + str(href.find("a").get("href"))
+            
+        response = requests.get(url=race_url_str, headers=headers)
+        soup = BeautifulSoup(response.content, 'lxml')
+        for href in soup.find_all("td", class_="fntN"):
+            # すべての馬のURLを格納
+            horse_url = "https://keiba.yahoo.co.jp" + \
+                str(href.find("a").get("href"))
+            print(horse_url)
+            response = requests.get(url=horse_url, headers=headers)
+            soup = BeautifulSoup(response.content, 'lxml')
+            try:
+                for parents_list in soup.select("#dirUmaBlood > tr "):
+                    parents_whole.append(parents_list.select_one("td:nth-of-type(1)"))
+                father.append(parents_whole[0].text)
+                mother.append(parents_whole[4].text)
+                child.append(soup.find("h1", class_="fntB").get_text())
+                parents_whole = []
+                # print(father)
+                # print(mother)
+                counter -=1
+                print(counter)
+            except:
+                pass
 
 print(len(child))
 print(len(mother))
