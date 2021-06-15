@@ -12,7 +12,8 @@ import numpy as np
 # 使う順
 year_list = [2020]
 year_url = []
-month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+month_list = [1]
+# month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 month_url = []
 race_url = []
 horse_url_array = []
@@ -127,7 +128,6 @@ for url in month_url:
             # father.append(parents_whole[0].text)
             # mother.append(parents_whole[4].text)
 
-
             for race_result in soup.select(".dataLs.mgnBL > tr"):
                 first_temp.append(race_result.select_one("td:nth-of-type(2)"))
                 second_temp.append(race_result.select_one("td:nth-of-type(3)"))
@@ -136,7 +136,9 @@ for url in month_url:
                 syussou_temp.append(race_result.select_one("td:nth-of-type(6)"))
                 vic_temp.append(race_result.select_one("td:nth-of-type(7)"))
                 rentai_temp.append(race_result.select_one("td:nth-of-type(8)"))
+            time.sleep(1)
             GI_first.append(first_temp[1])
+            print(GI_first)
             GII_first.append(first_temp[2])
             GIII_first.append(first_temp[3])
             otherjusyo_first.append(first_temp[4])
