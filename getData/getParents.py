@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 
 # 使う順
-year_list = [2019, 2020]
+year_list = [2020]
 year_url = []
 month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 month_url = []
@@ -129,7 +129,6 @@ for url in month_url:
 
 
             for race_result in soup.select(".dataLs.mgnBL > tr"):
-                time.sleep(0.3)
                 first_temp.append(race_result.select_one("td:nth-of-type(2)"))
                 second_temp.append(race_result.select_one("td:nth-of-type(3)"))
                 third_temp.append(race_result.select_one("td:nth-of-type(4)"))
@@ -137,7 +136,6 @@ for url in month_url:
                 syussou_temp.append(race_result.select_one("td:nth-of-type(6)"))
                 vic_temp.append(race_result.select_one("td:nth-of-type(7)"))
                 rentai_temp.append(race_result.select_one("td:nth-of-type(8)"))
-            print(first_temp)
             GI_first.append(first_temp[1])
             GII_first.append(first_temp[2])
             GIII_first.append(first_temp[3])
