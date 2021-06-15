@@ -98,7 +98,7 @@ for url in year_url:
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
 }
-counter = 8870
+
 for url in month_url:
     response = requests.get(url=url, headers=headers)
     soup_race_result = BeautifulSoup(response.content, 'lxml')
@@ -118,7 +118,7 @@ for url in month_url:
             response = requests.get(url=horse_url, headers=headers)
             soup = BeautifulSoup(response.content, 'lxml')
             # データ削除されている馬があるのでそのエラーをパスする
-            try:
+            # try:
             # 親の情報
             # parents_whole = []
             # for parents_list in soup.select("#dirUmaBlood > tr "):
@@ -128,80 +128,75 @@ for url in month_url:
             # mother.append(parents_whole[4].text)
 
 
-                for race_result in soup.select(".dataLs.mgnBL > tr"):
-                    first_temp = []
-                    second_temp = []
-                    third_temp = []
-                    fourth_temp = []
-                    syussou_temp = []
-                    vic_temp = []
-                    rentai_temp = []
-                    first_temp.append(
-                        race_result.select_one("td:nth-of-type(1)"))
-                    second_temp.append(
-                        race_result.select_one("td:nth-of-type(2)"))
-                    third_temp.append(
-                        race_result.select_one("td:nth-of-type(3)"))
-                    fourth_temp.append(
-                        race_result.select_one("td:nth-of-type(4)"))
-                    syussou_temp.append(
-                        race_result.select_one("td:nth-of-type(5)"))
-                    vic_temp.append(
-                        race_result.select_one("td:nth-of-type(6)"))
-                    rentai_temp.append(
-                        race_result.select_one("td:nth-of-type(7)"))
-                GI_first.append(first_temp[0])
-                GII_first.append(first_temp[1])
-                GIII_first.append(first_temp[2])
-                otherjusyo_first.append(first_temp[3])
-                jusyo_sum_first.append(first_temp[4])
-                special_first.append(first_temp[5])
-                sum_first.append(first_temp[6])
-                GI_second.append(second_temp[0])
-                GII_second.append(second_temp[1])
-                GIII_second.append(second_temp[2])
-                otherjusyo_second.append(second_temp[3])
-                jusyo_sum_second.append(second_temp[4])
-                special_second.append(second_temp[5])
-                sum_second.append(second_temp[6])
-                GI_third.append(third_temp[0])
-                GII_third.append(third_temp[1])
-                GIII_third.append(third_temp[2])
-                otherjusyo_third.append(third_temp[3])
-                jusyo_sum_third.append(third_temp[4])
-                special_third.append(third_temp[5])
-                sum_third.append(third_temp[6])
-                GI_fourth.append(fourth_temp[0])
-                GII_fourth.append(fourth_temp[1])
-                GIII_fourth.append(fourth_temp[2])
-                otherjusyo_fourth.append(fourth_temp[3])
-                jusyo_sum_fourth.append(fourth_temp[4])
-                special_fourth.append(fourth_temp[5])
-                sum_fourth.append(fourth_temp[6])
-                GI_syussou.append(syussou_temp[0])
-                GII_syussou.append(syussou_temp[1])
-                GIII_syussou.append(syussou_temp[2])
-                otherjusyo_syussou.append(syussou_temp[3])
-                jusyo_sum_syussou.append(syussou_temp[4])
-                special_syussou.append(syussou_temp[5])
-                sum_syussou.append(syussou_temp[6])
-                GI_vic.append(vic_temp[0])
-                GII_vic.append(vic_temp[1])
-                GIII_vic.append(vic_temp[2])
-                otherjusyo_vic.append(vic_temp[3])
-                jusyo_sum_vic.append(vic_temp[4])
-                special_vic.append(vic_temp[5])
-                sum_vic.append(vic_temp[6])
-                GI_vic.append(rentai_temp[0])
-                GII_rentai.append(rentai_temp[1])
-                GIII_rentai.append(rentai_temp[2])
-                otherjusyo_rentai.append(rentai_temp[3])
-                jusyo_sum_rentai.append(rentai_temp[4])
-                special_rentai.append(rentai_temp[5])
-                sum_rentai.append(rentai_temp[6])
-                child.append(soup.find("h1", class_="fntB").get_text())
-            except:
-                pass
+            for race_result in soup.select(".dataLs.mgnBL > tr"):
+                time.sleep(0.3)
+                first_temp.append(race_result.select_one("td:nth-of-type(2)"))
+                second_temp.append(race_result.select_one("td:nth-of-type(3)"))
+                third_temp.append(race_result.select_one("td:nth-of-type(4)"))
+                fourth_temp.append(race_result.select_one("td:nth-of-type(5)"))
+                syussou_temp.append(race_result.select_one("td:nth-of-type(6)"))
+                vic_temp.append(race_result.select_one("td:nth-of-type(7)"))
+                rentai_temp.append(race_result.select_one("td:nth-of-type(8)"))
+            print(first_temp)
+            GI_first.append(first_temp[1])
+            GII_first.append(first_temp[2])
+            GIII_first.append(first_temp[3])
+            otherjusyo_first.append(first_temp[4])
+            jusyo_sum_first.append(first_temp[5])
+            special_first.append(first_temp[6])
+            sum_first.append(first_temp[7])
+            GI_second.append(second_temp[1])
+            GII_second.append(second_temp[2])
+            GIII_second.append(second_temp[3])
+            otherjusyo_second.append(second_temp[4])
+            jusyo_sum_second.append(second_temp[5])
+            special_second.append(second_temp[6])
+            sum_second.append(second_temp[7])
+            GI_third.append(third_temp[1])
+            GII_third.append(third_temp[2])
+            GIII_third.append(third_temp[3])
+            otherjusyo_third.append(third_temp[4])
+            jusyo_sum_third.append(third_temp[5])
+            special_third.append(third_temp[6])
+            sum_third.append(third_temp[7])
+            GI_fourth.append(fourth_temp[1])
+            GII_fourth.append(fourth_temp[2])
+            GIII_fourth.append(fourth_temp[3])
+            otherjusyo_fourth.append(fourth_temp[4])
+            jusyo_sum_fourth.append(fourth_temp[5])
+            special_fourth.append(fourth_temp[6])
+            sum_fourth.append(fourth_temp[7])
+            GI_syussou.append(syussou_temp[1])
+            GII_syussou.append(syussou_temp[2])
+            GIII_syussou.append(syussou_temp[3])
+            otherjusyo_syussou.append(syussou_temp[4])
+            jusyo_sum_syussou.append(syussou_temp[5])
+            special_syussou.append(syussou_temp[6])
+            sum_syussou.append(syussou_temp[7])
+            GI_vic.append(vic_temp[1])
+            GII_vic.append(vic_temp[2])
+            GIII_vic.append(vic_temp[3])
+            otherjusyo_vic.append(vic_temp[4])
+            jusyo_sum_vic.append(vic_temp[5])
+            special_vic.append(vic_temp[6])
+            sum_vic.append(vic_temp[7])
+            GI_vic.append(rentai_temp[1])
+            GII_rentai.append(rentai_temp[2])
+            GIII_rentai.append(rentai_temp[3])
+            otherjusyo_rentai.append(rentai_temp[4])
+            jusyo_sum_rentai.append(rentai_temp[5])
+            special_rentai.append(rentai_temp[6])
+            sum_rentai.append(rentai_temp[7])
+            child.append(soup.find("h1", class_="fntB").get_text())
+            first_temp = []
+            second_temp = []
+            third_temp = []
+            fourth_temp = []
+            syussou_temp = []
+            vic_temp = []
+            rentai_temp = []
+            # except:
+            #     pass
 
 # print(len(mother))
 # print(len(father))
