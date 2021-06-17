@@ -9,11 +9,10 @@ import random
 import pandas as pd
 import openpyxl as opx
 import numpy as np
-# 情報を取得し終わったら通知するようにするパッケージ
 from plyer import notification
 
-url = ['https://db.netkeiba.com/?pid=sire_leading&year=2019&page=1', 'https://db.netkeiba.com/?pid=sire_leading&year=2019&page=2',
-       'https://db.netkeiba.com/?pid=sire_leading&year=2019&page=3', 'https://db.netkeiba.com/?pid=sire_leading&year=2019&page=4', 'https://db.netkeiba.com/?pid=sire_leading&year=2019&page=5']
+url = ['https://db.netkeiba.com/?pid=sire_leading&year=2020&page=1', 'https://db.netkeiba.com/?pid=sire_leading&year=2020&page=2',
+       'https://db.netkeiba.com/?pid=sire_leading&year=2020&page=3', 'https://db.netkeiba.com/?pid=sire_leading&year=2020&page=4', 'https://db.netkeiba.com/?pid=sire_leading&year=2020&page=5']
 
 syussou_array = []
 syouritu_array = []
@@ -36,6 +35,8 @@ for number in url:
 
 people_detail = pd.DataFrame(
     {"馬名": child, "出走回数": syussou_array, "勝率": syouritu_array, "EI": EI_array})
+
+#mode=wで新規作成モード
 with pd.ExcelWriter('getData/people.xlsx', mode='w') as writer:
     people_detail.to_excel(writer, sheet_name="種馬", index=None)
 # 自分用
