@@ -116,7 +116,6 @@ for url in month_url:
             soup = BeautifulSoup(response.content, 'lxml')
             # データ削除されている馬があるのでそのエラーをパスする
             try:
-
                 for race_result in soup.select(".dataLs.mgnBL > tr"):
                     first_temp.append(race_result.select_one("td:nth-of-type(2)"))
                     second_temp.append(race_result.select_one("td:nth-of-type(3)"))
@@ -187,7 +186,7 @@ for url in month_url:
             except:
                 pass
 
-
+#同じなアガサじゃないとエクセルにできないので長さを表示
 print(len(child))
 print(len(GI_first))
 print(len(GII_first))
