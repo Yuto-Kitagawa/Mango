@@ -1,3 +1,9 @@
+
+####################
+# 仔馬の情報はいらないのでこのコードは必要ありません
+####################
+
+
 # coding UTF-8
 from bs4 import BeautifulSoup
 import os
@@ -14,7 +20,7 @@ from plyer import notification
 # 使う順
 year_list = [2019]
 year_url = []
-month_list = [3,4]
+month_list = [3, 4]
 # month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 month_url = []
 race_url = []
@@ -117,14 +123,20 @@ for url in month_url:
             # データ削除されている馬があるのでそのエラーをパスする
             try:
                 for race_result in soup.select(".dataLs.mgnBL > tr"):
-                    first_temp.append(race_result.select_one("td:nth-of-type(2)"))
-                    second_temp.append(race_result.select_one("td:nth-of-type(3)"))
-                    third_temp.append(race_result.select_one("td:nth-of-type(4)"))
-                    fourth_temp.append(race_result.select_one("td:nth-of-type(5)"))
+                    first_temp.append(
+                        race_result.select_one("td:nth-of-type(2)"))
+                    second_temp.append(
+                        race_result.select_one("td:nth-of-type(3)"))
+                    third_temp.append(
+                        race_result.select_one("td:nth-of-type(4)"))
+                    fourth_temp.append(
+                        race_result.select_one("td:nth-of-type(5)"))
                     syussou_temp.append(
                         race_result.select_one("td:nth-of-type(6)"))
-                    vic_temp.append(race_result.select_one("td:nth-of-type(7)"))
-                    rentai_temp.append(race_result.select_one("td:nth-of-type(8)"))
+                    vic_temp.append(
+                        race_result.select_one("td:nth-of-type(7)"))
+                    rentai_temp.append(
+                        race_result.select_one("td:nth-of-type(8)"))
                 time.sleep(3)
                 GI_first.append(first_temp[1])
                 GII_first.append(first_temp[2])
@@ -186,7 +198,7 @@ for url in month_url:
             except:
                 pass
 
-#同じなアガサじゃないとエクセルにできないので長さを表示
+# 同じなアガサじゃないとエクセルにできないので長さを表示
 print(len(child))
 print(len(GI_first))
 print(len(GII_first))
@@ -292,7 +304,7 @@ race_num_data = pd.DataFrame(
      "連対数合計": sum_rentai}
 )
 
-#mode="a"で追記するモードに変換
+# mode="a"で追記するモードに変換
 with pd.ExcelWriter('./成績.xlsx', mode='a') as writer:
     # ExcelWriterを用いて新規シートにDataFrameを保存
     race_num_data.to_excel(writer, sheet_name='2019_03_04', index=False)
