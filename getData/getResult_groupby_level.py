@@ -14,7 +14,7 @@ from plyer import notification
 # 使う順
 year_list = [2019]
 year_url = []
-month_list = [1, 2]
+month_list = [3,4]
 # month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 month_url = []
 race_url = []
@@ -296,7 +296,7 @@ race_num_data = pd.DataFrame(
 #mode="a"で追記するモードに変換
 with pd.ExcelWriter('./成績.xlsx', mode='a') as writer:
     # ExcelWriterを用いて新規シートにDataFrameを保存
-    race_num_data.to_excel(writer, sheet_name='2019_01_02', index=False)
+    race_num_data.to_excel(writer, sheet_name='2019_03_04', index=False)
 
 # 自分用
 notification.notify(title="デスクトップ通知", message="実行完了", timeout=5)
