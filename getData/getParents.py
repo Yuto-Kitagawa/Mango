@@ -9,13 +9,13 @@ import random
 import pandas as pd
 import openpyxl as opx
 import numpy as np
-#情報を取得し終わったら通知するようにするパッケージ
+# 情報を取得し終わったら通知するようにするパッケージ
 from plyer import notification
 
 # 使う順
 year_list = [2020]
 year_url = []
-month_list = [11,12]
+month_list = [11, 12]
 # month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 month_url = []
 race_url = []
@@ -69,8 +69,7 @@ for url in month_url:
                 # 親の情報
                 parents_whole = []
                 for parents_list in soup.select("#dirUmaBlood > tr "):
-                    parents_whole.append(
-                        parents_list.select_one("td:nth-of-type(1)"))
+                    parents_whole.append(parents_list.select_one("td:nth-of-type(1)"))
                 father.append(parents_whole[0].text)
                 mother.append(parents_whole[4].text)
             except:
@@ -84,6 +83,6 @@ parents_detail = pd.DataFrame(
     {"URL": horse_url_array, "仔馬": child, "父馬": father, "母馬": mother})
 
 
-parents_detail.to_excel(sheet_name="血統",index=None)
+parents_detail.to_excel(sheet_name="血統", index=None)
 # 自分用
 notification.notify(title="デスクトップ通知", message="実行完了", timeout=5)
