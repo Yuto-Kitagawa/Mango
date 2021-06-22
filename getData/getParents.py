@@ -82,7 +82,6 @@ print(len(father))
 parents_detail = pd.DataFrame(
     {"URL": horse_url_array, "仔馬": child, "父馬": father, "母馬": mother})
 
-
-parents_detail.to_excel(sheet_name="血統", index=None)
+parents_detail.to_excel("./excel/parents.xlsx",sheet_name="血統", index=None)
 # 自分用
 notification.notify(title="デスクトップ通知", message="実行完了", timeout=5)

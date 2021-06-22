@@ -1,20 +1,33 @@
 import xlrd
 import pprint
-
 from pandas import Series, DataFrame
 import pandas as pd
+from sklearn.model_selection import train_test_split as split
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+from functions import Functions
 
-#エクセルの入力ファイル名、シート名指定
-#df = pd.read_excel('./必要データ纏め.xlsx',sheet_name='Sheet1')
-df = pd.read_excel('./必要データ纏め.xlsx')
-df.head()
+class Main(Functions):
+    tenkou = []
+    functions = Functions()
+    tenkou_array = functions.toArray(4, 2, 4, 100)
+    print(tenkou_array)
 
-a = df.head()
-print(a)
+    # エクセルの+Y.drop(drop_idx_y, axis=1)
 
-df_X = df.copy()
-df_Y = df.copy()
+    """ ここから下未完成"""
 
-#説明変数の格納
-#x = df[:, 1:3]
-#print(df)
+    # # 訓練用データ、評価用データに分割
+    # x_train, x_test, y_train, y_test = split(
+    #     df_X, df_Y, train_size=0.8, test_size=0.2)
+
+    # # 教師あり学習の実行(ロジスティック回帰)
+    # model = LogisticRegression()
+    # model.fit(x_train, y_train)
+
+    # # 評価の実行
+    # y_pred = model.predict(x_test)
+
+    # # plt.scatter(y_test, y_pred)
+    # # 精度の計算
+    # print(metrics.accuracy_score(y_test, y_pred))

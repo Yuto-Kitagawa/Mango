@@ -159,102 +159,102 @@ for race_number in whole_race_url_array:
                     # 着順
                     counter_num = 0
 
-                    for tyaku in soup.find_all("td", class_='place'):
-                        tyakujun_array.append(tyaku.text)
-                        counter_num += 1
+                    # for tyaku in soup.find_all("td", class_='place'):
+                    #     tyakujun_array.append(tyaku.text)
+                    #     counter_num += 1
                     
-                    for count in range(counter_num):
-                        url_array.append(race_url_str)
+                    # for count in range(counter_num):
+                    #     url_array.append(race_url_str)
 
-                    for date in soup.find_all("div", class_="date"):
-                        for count in range(counter_num):
-                            date_array.append(date.text)
-                            print(date.text)
+                    # for date in soup.find_all("div", class_="date"):
+                    #     for count in range(counter_num):
+                    #         date_array.append(date.text)
+                    #         print(date.text)
 
-                    for race_name in soup.find_all("span", class_="race_name"):
-                        for count in range(counter_num):
-                            race_name_array.append(race_name.text)
+                    # for race_name in soup.find_all("span", class_="race_name"):
+                    #     for count in range(counter_num):
+                    #         race_name_array.append(race_name.text)
 
-                    for weather in soup.find_all("li", class_="weather"):
-                        for count in range(counter_num):
-                            weather_array.append(weather.text)
+                    # for weather in soup.find_all("li", class_="weather"):
+                    #     for count in range(counter_num):
+                    #         weather_array.append(weather.text)
 
-                    for course_dis in soup.find_all("div", class_="course"):
-                        for count in range(counter_num):
-                            course_dis_array.append(course_dis.contents[1])
+                    # for course_dis in soup.find_all("div", class_="course"):
+                    #     for count in range(counter_num):
+                    #         course_dis_array.append(course_dis.contents[1])
                     
-                    for course_dis in soup.find_all("div", class_="course"):
-                        for count in range(counter_num):
-                            course_dis_array_sub.append(course_dis.text)
+                    # for course_dis in soup.find_all("div", class_="course"):
+                    #     for count in range(counter_num):
+                    #         course_dis_array_sub.append(course_dis.text)
 
-                    for course_detail in soup.find_all("div", class_='course'):
-                        for count in range(counter_num):
-                            course_detail_array.append(
-                                course_detail.contents[3].text)
+                    # for course_detail in soup.find_all("div", class_='course'):
+                    #     for count in range(counter_num):
+                    #         course_detail_array.append(
+                    #             course_detail.contents[3].text)
 
-                    for grade in soup.find_all("span", class_="grade_icon"):
-                        for count in range(counter_num):
-                            grade_array.append(grade.contents[0].get("alt"))
+                    # for grade in soup.find_all("span", class_="grade_icon"):
+                    #     for count in range(counter_num):
+                    #         grade_array.append(grade.contents[0].get("alt"))
 
-                    for status in soup.find_all("span", class_="txt")[191]:
-                        for count in range(counter_num):
-                            status_array.append(status)
+                    # for status in soup.find_all("span", class_="txt")[191]:
+                    #     for count in range(counter_num):
+                    #         status_array.append(status)
 
-                    for hour in soup.find_all("strong")[0]:
-                        for count in range(counter_num):
-                            hour_array.append(hour)
+                    # for hour in soup.find_all("strong")[0]:
+                    #     for count in range(counter_num):
+                    #         hour_array.append(hour)
                     
-                    for hour_sub in soup.find_all("strong")[1]:
-                        for count in range(counter_num):
-                            hour_array_sub.append(hour_sub)
-                    # レースの詳細作成時必要データ
+                    # for hour_sub in soup.find_all("strong")[1]:
+                    #     for count in range(counter_num):
+                    #         hour_array_sub.append(hour_sub)
+                    # # レースの詳細作成時必要データ
 
-                    # 枠
-                    for waku in soup.find_all("td", class_="waku"):
-                        waku_array.append(waku.contents[0].get("alt"))
-                    # 馬番
-                    for umaban in soup.find_all("td", class_='num'):
-                        umaban_array.append(umaban.text)
+                    # # 枠
+                    # for waku in soup.find_all("td", class_="waku"):
+                    #     waku_array.append(waku.contents[0].get("alt"))
+                    # # 馬番
+                    # for umaban in soup.find_all("td", class_='num'):
+                    #     umaban_array.append(umaban.text)
 
-                    # 馬名
-                    for name in soup.find_all("td", class_='horse'):
-                        name_array.append(name.text)
+                    # # 馬名
+                    # for name in soup.find_all("td", class_='horse'):
+                    #     name_array.append(name.text)
 
-                    # 年齢
-                    for age in soup.find_all("td", class_='age'):
-                        age_array.append(age.text)
+                    # # 年齢
+                    # for age in soup.find_all("td", class_='age'):
+                    #     age_array.append(age.text)
 
-                    # 斤量
-                    for add_weight in soup.find_all("td", class_='weight'):
-                        add_weight_array.append(add_weight.text)
+                    # # 斤量
+                    # for add_weight in soup.find_all("td", class_='weight'):
+                    #     add_weight_array.append(add_weight.text)
 
-                    # 騎手
-                    for jockey in soup.find_all("td", class_='jockey'):
-                        jockey_array.append(jockey.text)
+                    # # 騎手
+                    # for jockey in soup.find_all("td", class_='jockey'):
+                    #     jockey_array.append(jockey.text)
 
-                    # 推定上り
-                    for f in soup.find_all("td", class_="f_time"):
-                        ftime_array.append(f.text)
+                    # # 推定上り
+                    # for f in soup.find_all("td", class_="f_time"):
+                    #     ftime_array.append(f.text)
 
-                    # 馬体重
-                    for weight in soup.find_all("td", class_='h_weight'):
-                        weight_array.append(weight.contents[0])
+                    # # 馬体重
+                    # for weight in soup.find_all("td", class_='h_weight'):
+                    #     weight_array.append(weight.contents[0])
 
-                    # タイム
-                    for time in soup.find_all("td", class_='time'):
-                        time_array.append(time.text)
+                    # # タイム
+                    # for time in soup.find_all("td", class_='time'):
+                    #     time_array.append(time.text)
 
                     # 着差
                     for margin in soup.find_all("td", class_='margin'):
                         margin_array.append(margin.text)
 
-                    # 調教師
-                    for trainer in soup.find_all("td", class_='trainer'):
-                        trainer_array.append(trainer.text)
+                    # # 調教師
+                    # for trainer in soup.find_all("td", class_='trainer'):
+                    #     trainer_array.append(trainer.text)
 
-                    # コーナー通過順位
-                    for corner in soup.find_all("td", class_='corner'):
-                        corner_array.append(corner.text)
+                    # # コーナー通過順位
+                    # for corner in soup.find_all("td", class_='corner'):
+                    #     corner_array.append(corner.text)
 
                     # 残りレースの処理数を表示
                     counter -= 1
@@ -293,8 +293,10 @@ print(len(corner_array))
 # race_list.to_excel('./レースデータ.xlsx', header=False, index=False)
 
 # レースの詳細をエクセルファイルにエクスポート
+# race_detail = pd.DataFrame(
+#     {'URL': url_array, '日付': date_array, 'レース名': race_name_array, '天気': weather_array, '発走時間(サブ)': hour_array_sub, '発走時間': hour_array, 'コースの距離': course_dis_array, '距離(サブ)': course_dis_array_sub, 'コースの詳細': course_detail_array, 'コースの状態': status_array, 'レースの各位': grade_array, '着順': tyakujun_array, '枠': waku_array, '馬番': umaban_array, '馬名': name_array, '斤量': add_weight_array, '年齢': age_array, '騎手': jockey_array, 'タイム': time_array, '推定上り': ftime_array, '体重': weight_array, '調教師': trainer_array, '着差': margin_array, 'コーナー通過': corner_array})
+
 race_detail = pd.DataFrame(
-    {'URL': url_array, '日付': date_array, 'レース名': race_name_array, '天気': weather_array, '発走時間(サブ)': hour_array_sub, '発走時間': hour_array, 'コースの距離': course_dis_array, '距離(サブ)': course_dis_array_sub, 'コースの詳細': course_detail_array, 'コースの状態': status_array, 'レースの各位': grade_array, '着順': tyakujun_array, '枠': waku_array, '馬番': umaban_array, '馬名': name_array, '斤量': add_weight_array, '年齢': age_array, '騎手': jockey_array, 'タイム': time_array, '推定上り': ftime_array, '体重': weight_array, '調教師': trainer_array, '着差': margin_array, 'コーナー通過': corner_array})
+    {'着差': margin_array})
 
-
-race_detail.to_excel('./レース詳細.xlsx', index=False, sheet_name='all_data')
+race_detail.to_excel('./excel/レース着差.xlsx', index=False, sheet_name='all_data')

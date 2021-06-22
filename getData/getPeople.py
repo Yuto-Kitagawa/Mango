@@ -37,7 +37,7 @@ people_detail = pd.DataFrame(
     {"馬名": child, "出走回数": syussou_array, "勝率": syouritu_array, "EI": EI_array})
 
 #mode=wで新規作成モード
-with pd.ExcelWriter('getData/people.xlsx', mode='w') as writer:
+with pd.ExcelWriter('.\excel\p.xlsx', mode='w') as writer:
     people_detail.to_excel(writer, sheet_name="種馬", index=None)
 # 自分用
 notification.notify(title="デスクトップ通知", message="実行完了", timeout=5)

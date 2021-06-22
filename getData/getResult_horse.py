@@ -305,7 +305,7 @@ race_num_data = pd.DataFrame(
 )
 
 # mode="a"で追記するモードに変換
-with pd.ExcelWriter('./成績.xlsx', mode='a') as writer:
+with pd.ExcelWriter('./excel/成績.xlsx', mode='a') as writer:
     # ExcelWriterを用いて新規シートにDataFrameを保存
     race_num_data.to_excel(writer, sheet_name='2019_03_04', index=False)
 
