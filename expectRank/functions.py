@@ -25,10 +25,11 @@ class Functions:
 
         return tenkou
 
-    def split_data(df,test_rate=0.3):
-        sorted_id_list = df.sort_values('RACE_NUMBER').index.unique()
-        train_id_list = sorted_id_list[:round(len(sorted_id_list)*(1-test_rate))]
-        test_id_list = sorted_id_list[round(len(sorted_id_list)*(1-test_rate)):]
-        train = df.loc([train_id_list])
-        test = df.loc([test_id_list])
+    def split_data(self,df):
+        # df = pd.read_excel("./必要データ纏め.xlsx", sheet_name="RACEORDER")
+        sorted_id_list = df.sort_values(by='RACE_NUMBER').index.unique()
+        train_id_list = sorted_id_list[:round(len(sorted_id_list)*0.7)]
+        test_id_list = sorted_id_list[round(len(sorted_id_list)*0.7):]
+        train = df.loc[train_id_list]
+        test = df.loc[test_id_list]
         return train,test

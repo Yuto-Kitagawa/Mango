@@ -2,14 +2,18 @@ import xlrd
 import pprint
 from pandas import Series, DataFrame
 import pandas as pd
-from sklearn.model_selection import train_test_split as split
-from sklearn.linear_model import LogisticRegression
-from sklearn import metrics
+
 # もう一つのクラスファイルのclass Functionsを継承のためにインストール
 from functions import Functions
-# ランダムフォレスト仕様のためのモジュールをインストール
+# 以下ランダムフォレスト仕様のためのモジュールをインストール
 # https://qiita.com/Hawaii/items/5831e667723b66b46fba 参照
+# from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
+from sklearn.model_selection import train_test_split as split
+from sklearn.metrics import roc_curve, roc_auc_score
+from jupyterthemes import jtplot
+import matplotlib as plt
 
 
 class Main(Functions):
@@ -22,7 +26,7 @@ class Main(Functions):
     df_Race = pd.read_excel("./必要データ纏め.xlsx", sheet_name="RACE")
     idx_race = ["RACE_NAME"]
     df_Race = df_Race.drop(idx_race, axis=1)
-    #エクセルにエクスポート
+    # エクセルにエクスポート
     # df_Race.to_excel("./sample.xlsx", index=None)
 
     # RACEORDER用DataFrame
@@ -40,29 +44,47 @@ class Main(Functions):
     df_RaceOder["3着以内"] = df_RaceOder["RACEORDER_NUMBER"].map(cf3)
 
     print(df_RaceOder['3着以内'].value_counts())
-    # df_RaceOder.to_excel("./sample.xlsx", index=None)
+    df_RaceOder.to_excel("./sample.xlsx", index=None)
 
-    train,test = functions.split_data(df_RaceOder)
+    #文字のデータをdrop
+    df_RaceOder.drop(["HORSE_NAME"], axis=1, inplace=True)
+    df_RaceOder.drop(["RACE_TIME"], axis=1, inplace=True)
+    df_RaceOder.drop(["MARGIN"], axis=1, inplace=True)
+    df_RaceOder.drop(["FRAME_NUMBER"], axis=1, inplace=True)
+    df_RaceOder.drop(["JOCKEY_NUMBER"],axis=1,inplace=True)
 
+    # データを0.3に分ける
     # 訓練用データ、評価用データに分割
-    # x_train, x_test, y_train, y_test = split(
-    #     df_X, df_Y, train_size=0.8, test_size=0.2)
+    # Functoinのsplit_data関数を実行
+    train, test = functions.split_data(df_RaceOder)
+
+
+    X_train = train.drop(["RACEORDER_NUMBER"], axis=1)
+    y_train = train["RACEORDER_NUMBER"]
+    X_test = test.drop(["RACEORDER_NUMBER"], axis=1)
+    y_test = test["RACEORDER_NUMBER"]
+    X_train.to_excel("sample.xlsx",index=None)
+
+    print(X_train)
+    print(y_train)
+
+    # ランダムフィレストの始まり
+    model = RandomForestClassifier(random_state=100)
+    model.fit(X_train, y_train)
+    
+    y_pred = model.predict_proba(X_test)
+    print(y_pred)
+    # jtplotstyle(theme='monokai')
+
+    fpr, tpr, thresholds = roc_curve(y_test, y_pred)
+    plt.plot(fpr,tpr,marker='o')
+    plt.xlabel('False positive rate')
+    plt.ylabel('True positive rate')
+    plt.grid()
+    plt.show()
+
 
 # """ロジスティック回帰ではない"""
 # # 教師あり学習の実行(ロジスティック回帰)
 # # model = LogisticRegression()
 # # model.fit(x_train, y_train)
-
-# """ランダムフォレストを使用"""
-# # ランダムフォレスト
-# model = RandomForestClassifier(random_state=1234)
-# model.fit(x_train, y_train)
-
-# print("score=", model.score(x_test, y_test))
-
-# # 評価の実行
-# #y_pred = model.predict(x_test)
-
-# #plt.scatter(y_test, y_pred)
-# # 精度の計算
-# #print(metrics.accuracy_score(y_test, y_pred))
