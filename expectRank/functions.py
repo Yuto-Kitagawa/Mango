@@ -27,9 +27,12 @@ class Functions:
 
     def split_data(self,df):
         # df = pd.read_excel("./必要データ纏め.xlsx", sheet_name="RACEORDER")
-        sorted_id_list = df.sort_values(by='RACE_NUMBER').index.unique()
+        sorted_id_list = df.sort_values(by='連番').index.unique()
         train_id_list = sorted_id_list[:round(len(sorted_id_list)*0.7)]
         test_id_list = sorted_id_list[round(len(sorted_id_list)*0.7):]
         train = df.loc[train_id_list]
         test = df.loc[test_id_list]
         return train,test
+
+    # def cf(x): return 1 if x in [1] else 0
+    # result_p["着順"] = result_p["tyaku"].map(cf)

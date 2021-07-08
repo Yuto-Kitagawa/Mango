@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import MySQLdb
 from plyer import notification
+
 # select user, host from mysql.user;(データベースはmysql)でユーザとhostを確認できる
 conn = MySQLdb.connect(
     user='root',

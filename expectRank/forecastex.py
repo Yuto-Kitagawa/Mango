@@ -13,7 +13,7 @@ from sklearn.ensemble import RandomForestClassifier  # ランダムフォレス�
 from sklearn.model_selection import train_test_split as split
 from sklearn.metrics import roc_curve, roc_auc_score
 from jupyterthemes import jtplot
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 class Main(Functions):
@@ -30,59 +30,47 @@ class Main(Functions):
     # df_Race.to_excel("./sample.xlsx", index=None)
 
     # RACEORDER用DataFrame
-    df_RaceOder = pd.read_excel("./必要データ纏め.xlsx", sheet_name="RACEORDER")
-    def cf(x): return 1 if x in [1] else 0
-    df_RaceOder["1着"] = df_RaceOder["RACEORDER_NUMBER"].map(cf)
+    df_RaceOder = pd.read_excel("./必要データ纏め.xlsx", sheet_name="マスタデータレース一覧")
+    df_RaceOder = df_RaceOder.drop(
+        ["日付", "レース名", "発走時間", "タイム", "天気", "コースの詳細", "枠", "推定上り", "着差", "レースの各位", "年齢", "コーナー通過", "着順"], axis=1)
 
-    def cf2(x): return 1 if x in [2] else 0
-    df_RaceOder["2着"] = df_RaceOder["RACEORDER_NUMBER"].map(cf2)
+    # df_Orderのコピー
+    result_p = df_RaceOder.copy()
 
-    def cf3(x): return 1 if x in [3] else 0
-    df_RaceOder["3着"] = df_RaceOder["RACEORDER_NUMBER"].map(cf3)
+    # 0~3着まではそれの通り、4着以降はすべて4にする
+    # 0は取消、除外を表す
+    result_p['着順'] = result_p['tyaku'].map(lambda x: x if x < 4 else 4)
+    # 予想するには0か1出ないといけないので1-3を1、それ以外を0にする
+    result_p['rank'] = result_p['着順'].map(lambda x: 1 if x in [1, 2, 3] else 0)
+    # 振り分けをしたので元データを削除
+    result_p = result_p.drop(['着順', 'tyaku'], axis=1)
 
-    def cf3(x): return 1 if x in [1, 2, 3] else 0
-    df_RaceOder["3着以内"] = df_RaceOder["RACEORDER_NUMBER"].map(cf3)
+    # result_p = result_p.drop(['馬名'], axis=1, inplace=True)
+    # ダミー変数を生成
+    result_d = pd.get_dummies(result_p)
+    print(result_d)
 
-    print(df_RaceOder['3着以内'].value_counts())
-    df_RaceOder.to_excel("./sample.xlsx", index=None)
+    result_p.to_excel("./sample.xlsx", index=False)
 
-    #文字のデータをdrop
-    df_RaceOder.drop(["HORSE_NAME"], axis=1, inplace=True)
-    df_RaceOder.drop(["RACE_TIME"], axis=1, inplace=True)
-    df_RaceOder.drop(["MARGIN"], axis=1, inplace=True)
-    df_RaceOder.drop(["FRAME_NUMBER"], axis=1, inplace=True)
-    df_RaceOder.drop(["JOCKEY_NUMBER"],axis=1,inplace=True)
+    train, test = functions.split_data(result_p)
+    X_train = train.drop(["rank", 'date'], axis=1)
+    y_train = train["rank"]
+    X_test = test.drop(["rank", 'date'], axis=1)
+    y_test = test["rank"]
 
-    # データを0.3に分ける
-    # 訓練用データ、評価用データに分割
-    # Functoinのsplit_data関数を実行
-    train, test = functions.split_data(df_RaceOder)
-
-
-    X_train = train.drop(["RACEORDER_NUMBER"], axis=1)
-    y_train = train["RACEORDER_NUMBER"]
-    X_test = test.drop(["RACEORDER_NUMBER"], axis=1)
-    y_test = test["RACEORDER_NUMBER"]
-    X_train.to_excel("sample.xlsx",index=None)
-
-    print(X_train)
-    print(y_train)
-
-    # ランダムフィレストの始まり
+    # # ランダムフィレストの始まり
     model = RandomForestClassifier(random_state=100)
     model.fit(X_train, y_train)
-    
-    y_pred = model.predict_proba(X_test)
+    y_pred = model.predict_proba(X_test)[:, 0]
     print(y_pred)
-    # jtplotstyle(theme='monokai')
 
-    fpr, tpr, thresholds = roc_curve(y_test, y_pred)
-    plt.plot(fpr,tpr,marker='o')
-    plt.xlabel('False positive rate')
-    plt.ylabel('True positive rate')
-    plt.grid()
-    plt.show()
-
+    # jtplot.style(theme='monokai')
+    # fpr, tpr, thresholds = roc_curve(y_test, y_pred)
+    # plt.plot(fpr, tpr, marker='o')
+    # plt.xlabel('False positive rate')
+    # plt.ylabel('True positive rate')
+    # plt.grid()
+    # plt.show()
 
 # """ロジスティック回帰ではない"""
 # # 教師あり学習の実行(ロジスティック回帰)
