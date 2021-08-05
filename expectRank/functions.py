@@ -1,4 +1,5 @@
 import openpyxl as openpyxl
+import xlrd
 import numpy as np
 import pandas as pd
 import datetime
@@ -25,14 +26,54 @@ class Functions:
 
         return tenkou
 
-    def split_data(self,df):
+    def split_data(self, df):
         # df = pd.read_excel("./必要データ纏め.xlsx", sheet_name="RACEORDER")
         sorted_id_list = df.sort_values(by='連番').index.unique()
         train_id_list = sorted_id_list[:round(len(sorted_id_list)*0.7)]
         test_id_list = sorted_id_list[round(len(sorted_id_list)*0.7):]
         train = df.loc[train_id_list]
         test = df.loc[test_id_list]
-        return train,test
+        return train, test
 
-    # def cf(x): return 1 if x in [1] else 0
-    # result_p["着順"] = result_p["tyaku"].map(cf)
+    def toArray():
+        # https://www.youtube.com/watch?v=LhCBY_3kZkw
+        wb = xlrd.load_workbook("./hy_data.xlsx")
+        sheet = wb["Sheet1"]
+        Sheet_Max = Sheet_1.nrows
+
+        # 配列宣言
+        id = []
+        frame = []
+        horse_number = []
+        kinryou = []
+        course_len = []
+        weather = []
+        race_type = []
+        course_status = []
+        date = []
+        gender = []
+        age = []
+        weight_change = []
+        rank = []
+
+        # シートの2行目~最終行をループ
+        for i in range(1, Sheet_Max):
+            id.append(int(Sheet_1.cell_value(i, 0)))
+            frame.append(int(Sheet_1.cell_value(i, 1)))
+            horse_number.append(int(Sheet_1.cell_value(i, 1)))
+            kinryou.append(int(Sheet_1.cell_value(i, 1)))
+            course_len.append(int(Sheet_1.cell_value(i, 1)))
+            weather.append(Sheet_1.cell_value(i, 1))#文字
+            race_type.append(Sheet_1.cell_value(i, 1))  # 文字
+            weather.append(int(Sheet_1.cell_value(i, 1)))  # 文字
+            course_status.append(int(Sheet_1.cell_value(i, 1)))  # 文字
+            date.append(int(Sheet_1.cell_value(i, 1)))  # 文字型
+            gender.append(int(Sheet_1.cell_value(i, 1)))  # 文字
+            age.append(int(Sheet_1.cell_value(i, 1)))
+            weight_change.append(int(Sheet_1.cell_value(i, 1)))
+            rank.append(int(Sheet_1.cell_value(i, 1)))
+
+        print(My_Name)
+        print(My_Suryo)
+
+        pass

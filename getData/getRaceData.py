@@ -162,7 +162,7 @@ for race_number in whole_race_url_array:
                     # for tyaku in soup.find_all("td", class_='place'):
                     #     tyakujun_array.append(tyaku.text)
                     #     counter_num += 1
-                    
+
                     # for count in range(counter_num):
                     #     url_array.append(race_url_str)
 
@@ -182,7 +182,7 @@ for race_number in whole_race_url_array:
                     # for course_dis in soup.find_all("div", class_="course"):
                     #     for count in range(counter_num):
                     #         course_dis_array.append(course_dis.contents[1])
-                    
+
                     # for course_dis in soup.find_all("div", class_="course"):
                     #     for count in range(counter_num):
                     #         course_dis_array_sub.append(course_dis.text)
@@ -203,7 +203,7 @@ for race_number in whole_race_url_array:
                     # for hour in soup.find_all("strong")[0]:
                     #     for count in range(counter_num):
                     #         hour_array.append(hour)
-                    
+
                     # for hour_sub in soup.find_all("strong")[1]:
                     #     for count in range(counter_num):
                     #         hour_array_sub.append(hour_sub)

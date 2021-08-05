@@ -17,6 +17,7 @@ print(X)
 model = RandomForestClassifier()
 # モデルの評価
 cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+# 予想する
 n_scores = cross_val_score(
     model, X, y, scoring='accuracy', cv=cv, n_jobs=-1, error_score='raise')
 # report performance

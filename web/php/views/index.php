@@ -7,8 +7,6 @@ function console_log($data)
     echo '</script>';
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,9 +98,14 @@ function console_log($data)
         <div class="race__box">
             <div class="race__box__main">
                 <div class="race__box__main__title">
-                    <h3><?= $race_array[0]['name'] ?><span><?= $race_array[0]['grade'] ?></span></h3>
-                    <p><?= $race_array[0]['location'] ?> <?= $race_array[0]['style'] ?> <?= $race_array[0]['distance'] ?>m</p>
-                    <p><?= substr($race_array[0]['date'], -3, -2) ?>月<?= substr($race_array[0]['date'], -2) ?>日 (
+                    <h3>
+                        <?= $race_array[0]['name'] ?><span><?= $race_array[0]['grade'] ?>
+                        </span></h3>
+                    <p>
+                        <?= $race_array[0]['location'] ?> <?= $race_array[0]['style'] ?> <?= $race_array[0]['distance'] ?>
+                        m</p>
+                    <p>
+                    <?= substr($race_array[0]['date'], -3, -2) ?>月<?= substr($race_array[0]['date'], -2) ?>日 (
                         <?php $timestamp = mktime(0, 0, 0, substr($race_array[0]['date'], -3, -2), substr($race_array[0]['date'], -2), substr($race_array[0]['date'], -8, -5));
                         $date_1 = date('w', $timestamp);
                         echo $week[$date_1];

@@ -46,9 +46,6 @@ function console_log($data)
     </script>
 
     <?php
-    $year = $_GET['year'];
-    $month = $_GET['month'];
-    $date = $_GET['date'];
     $week = [
         '日', //0
         '月', //1
@@ -58,6 +55,9 @@ function console_log($data)
         '金', //5
         '土', //6
     ];
+    $year = $_GET['year'];
+    $month = $_GET['month'];
+    $date = $_GET['date'];
     $func = new Functions;
     $race_array = $func->compareDate($year, $month, $date); //return race in this week
     ?>
@@ -256,6 +256,9 @@ function console_log($data)
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.js" integrity="sha512-qqdD5ZLIGB5PCqCk1OD8nFBr/ngB5w+Uw35RE/Ivt5DK35xl1PFVkuOgAbqFpvtoxX6MpRGLmIqixzdhFOJhnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../../js/index.js"></script>
+    <script>
+        window.location.reload();
+    </script>
 </body>
 
 </html>
