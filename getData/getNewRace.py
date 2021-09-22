@@ -46,31 +46,4 @@ while(i < 2):
         for kisyu_array in soup.select(""):
             kisyu.append(kisyu_array.text)
 
-# 取得したいデータが配列に入っているので
-# データベースに登録
-
-# select user, host from mysql.user;(データベースはmysql)でユーザとhostを確認できる
-conn = MySQLdb.connect(
-    user='root',
-    passwd='',
-    host='localhost',
-    db='mango')
-
-# カーソルを取得する
-cur = conn.cursor()
-
-# SQL（データベースを操作するコマンド）を実行する
-
-# レース名が同じ行のidを取得
-sql = "select id from race_list where name =" + str(race_name[0]) + ";"
-cur.execute(sql)
-
-# 実行結果を取得
-rows = cur.fetchall()
-
-for result in rows:
-    print(result)
-
-sql2 = "INSERT INTO race_order(id,RACE_NUMBER,RACEORDER_NUMBER,HORESE_NAME,ADD_WEIGHT,JOCKEY_NUMBER,RACE_TIME,MARGIN,FRAME_NUMBER,HORESE_NUMBER,ENDUP,HORESE_AGE,HORESE_WEIGHT,H_WEIGHT_INDECREASE)"
-
 notification.notify(title="実行完了", message="SQLの処理が完了しました", timeout=5)
