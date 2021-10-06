@@ -146,7 +146,6 @@ result_value_array.pop(0)
 # cur = conn.cursor()
 # sql = "TRUNCATE `mango`.`temp`;ALTER TABLE temp AUTO_INCREMENT = 1;"
 # cur.execute(sql)
-# sql = ""
 # for index in result_index:
 #     sql += "INSERT INTO mango.`temp` (data) VALUE ('" + str(index) + "');"
     
